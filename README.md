@@ -14,25 +14,5 @@ A stylish **Neon Tic-Tac-Toe** game with a wooden theme, glowing X & O effects, 
 
 ---
 
-## 📸 Preview  
-
-(![Tic Tac Toe Screenshot]("https://github.com/vishesh7737/Wooden-tic-tac-toe/blob/6359e347fc99e8305371f8253b8e85bfe6fa7bf7/Screenshot%202025-09-07%20220712.png"))
-          
-        
-           
-           ## 🎮 Game Screen Preview
-
-This is how the main game board looks during play:
-           (![Game screen]("https://github.com/vishesh7737/Wooden-tic-tac-toe/blob/6359e347fc99e8305371f8253b8e85bfe6fa7bf7/Screenshot%202025-09-07%20220746.png"))
-         
-           
-           
-           ## 🏆 Victory Screen Preview
-
-Here’s how the victory card looks when a player wins:
-
-(![Victory Card Screenshot]("https://github.com/vishesh7737/Wooden-tic-tac-toe/blob/6359e347fc99e8305371f8253b8e85bfe6fa7bf7/Screenshot%202025-09-07%20220921.png"))
-
-
 
 ---
