@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wooden Tic-Tac-Toe</title>
+
+
+         <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+
+
+  <style>
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url("wood bg img.jpg") no-repeat center center/cover;
+
+}
+    
+    
+
+    h1 {
+      color: #fff;
+      text-shadow: 2px 2px 5px black;
+      margin-bottom: 10px;
+    }
+
+    /* Board */
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(3, 120px);
+      grid-template-rows: repeat(3, 120px);
+      gap: 8px;
+      background: #8b5a2b;
+      padding: 10px;
+      border-radius: 15px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .cell {
+      width: 120px;
+      height: 120px;
+         align-items: center;
+      cursor: pointer;
+      background: url("images.jpeg") no-repeat center center/cover;
+      border-radius: 12px;
+      transition: transform 0.2s;
+      color: white;
+      text-shadow: 2px 2px 6px black;
+       font-family: 'Monoton', cursive;  /* Stylish neon font */
+  font-size: 80px;                  /* aur bada aur bold */
+  font-weight: normal;              /* Monoton apne aap bold lagta hai */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+        /* Golden border with gradient */
+   /* Make corners rounded */
+
+   /* Apply Neon Font */
+
+
+/* Neon X (Red glow) */
+.cell.x {
+  color: #ff0000;
+  text-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff3300,
+    0 0 40px #ff6600,
+    0 0 60px #ffaa00;
+  animation: flickerX 1.5s infinite alternate;
+}
+
+/* Neon O (Yellow-Green glow) */
+.cell.o {
+  color: #ffff33;
+  text-shadow:
+    0 0 10px #ffff33,
+    0 0 20px #ccff33,
+    0 0 40px #99ff33,
+    0 0 60px #66ff00;
+  animation: flickerO 1.5s infinite alternate;
+}
+
+/* Flicker animations */
+@keyframes flickerX {
+  0%, 100% { text-shadow: 0 0 8px #ff0000, 0 0 18px #ff3300, 0 0 36px #ff6600; }
+  50% { text-shadow: 0 0 14px #ff3300, 0 0 28px #ff6600, 0 0 50px #ffaa00; }
+}
+
+@keyframes flickerO {
+  0%, 100% { text-shadow: 0 0 8px #ffff33, 0 0 18px #ccff33, 0 0 36px #99ff33; }
+  50% { text-shadow: 0 0 14px #ccff33, 0 0 28px #99ff33, 0 0 50px #66ff00; }
+}
+
+  
+
+  /* Golden Border */
+  border: 4px solid #ffd700; /* pure gold color */
+  
+  /* Optional Gradient Golden Border */
+  border: 4px solid transparent;
+  border-image: linear-gradient(45deg, #b8860b, #ffd700, #daa520, #ffcc00) 1;
+
+  /* Glow Effect */
+  box-shadow: 0 0 12px rgba(218, 165, 32, 0.8),
+              inset 0 0 6px rgba(255, 255, 255, 0.2);
+    }
+
+    .cell:hover {
+      transform: scale(1.05);
+    }
+
+    .highlight {
+       background: linear-gradient(45deg, #d4af37, #ffd700);
+  border: 3px solid gold;
+    }
+
+    /* X and O Colors */
+    .cell.x {
+      color: #ff4d4d; /* Red X */
+    }
+    .cell.o {
+      color: #66ff66; /* Green O */
+    }
+
+    /* Scoreboard */
+    .scoreboard {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      width: 280px;
+      background: url("scoreboard.jpg") no-repeat center center/cover;
+      border-radius: 12px;
+      padding: 10px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    }
+
+    .player {
+    
+      text-align: center;
+      flex: 1;
+      font-size: 24px;
+      text-shadow: 2px 2px 5px black;
+    }
+
+    .red { color: #ff4d4d; }
+    .green { color: #66ff66; }
+
+    /* Reset Button */
+    .reset-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background: #a0522d;
+      color: white;
+      transition: 0.3s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    }
+
+    .reset-btn:hover {
+      background: #8b4513;
+    }
+
+    @media (max-width: 600px) {
+      .game-container {
+        grid-template-columns: repeat(3, 90px);
+        grid-template-rows: repeat(3, 90px);
+      }
+      .cell {
+        width: 90px;
+        height: 90px;
+        font-size: 40px;
+      }
+    }
+
+    
+    /* Pause button */
+    #pauseBtn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #4CAF50;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      transition: 0.2s;
+    }
+    #pauseBtn:hover { transform: scale(1.1); }
+
+    /* Pause Menu */
+    #pauseMenu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #fdf2d0;
+      padding: 30px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+      transition: 0.3s ease-in-out;
+    }
+    #pauseMenu.active { transform: translate(-50%, -50%) scale(1); }
+
+    .menu-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: 0.2s;
+    }
+    .menu-btn:hover { transform: scale(1.1); }
+
+#homeScreen {
+    height: 100vh; /* Full screen */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Background image for Home Screen */
+    background-image: url('home\ bg\ image.png'); /* Tumhari home screen image */
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white; /* Text color */
+}
+#startBtn {
+  position: absolute;
+  top: 70%;   /* upar se 70% */
+  left: 50%;  /* left se 50% */
+  transform: translate(-50%, -50%); /* center alignment */
+  cursor: pointer;
+  width: 300px;
+    border: 4px solid #ffd700; /* gold color border */
+    border-radius: 50%;   /* ya 100%, same kaam karega */
+  overflow: hidden;  
+    background-image: url('neon -bg play button.png'); /* image as button background */
+  background-size: cover;               /* full div cover ho jaye */
+  background-position: center;          
+    border: 4px solid #ffd700;             
+  box-shadow: 0 0 5px #ffd700, 0 0 10px #ff4500, 0 0 20px #ffd700, 0 0 30px #ff4500;
+
+  animation: neonGlow 1.5s infinite alternate;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    animation: pulse 2s infinite;
+}
+/* Hover: Neon intensify + bigger glow + zoom */
+#startBtn:hover {
+  transform: scale(1.3);                  /* Slightly bigger */
+  border-color: #ffdd00;                  /* Brighter yellow */
+  box-shadow: 
+    0 0 15px #ffdd00, 
+    0 0 25px #ff4500, 
+    0 0 35px #ffdd00, 
+    0 0 50px #ff4500,
+    0 0 60px #ffdd00;
+}
+/* Neon Glow Animation: Yellow & Red mixture pulsate */
+@keyframes neonGlow {
+  0% {
+    border-color: #ffd700;
+    box-shadow: 0 0 5px #ffd700, 0 0 10px #ff4500, 0 0 20px #ffd700, 0 0 30px #ff4500;
+  }
+  50% {
+    border-color: #ff4500;
+    box-shadow: 0 0 15px #ff4500, 0 0 25px #ffd700, 0 0 35px #ff4500, 0 0 50px #ffd700;
+  }
+  100% {
+    border-color: #ffd700;
+    box-shadow: 0 0 5px #ffd700, 0 0 10px #ff4500, 0 0 20px #ffd700, 0 0 30px #ff4500;
+  }
+}
+#startBtn:hover {
+  transform: scale(1.2); /* 20% bada ho jayega */
+  transition: transform 0.3s ease;
+}
+#startBtn:active {
+  transform: scale(1.1); /* thoda shrink jab click kare */
+  transition: transform 0.1s;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+/* Modal background */
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8); /* Dark transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Victory Card Content */
+.modal-content {
+    background: linear-gradient(135deg, #ff0000, #ffff00, #ff8c00, #ffd700);
+    background-size: 400% 400%;
+    animation: gradient-animation 8s ease infinite;
+    padding: 40px;
+    border-radius: 20px;
+    border: 4px solid white;
+    box-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 40px rgba(255,215,0,0.9);
+    color: white;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 2px 2px 8px black;
+}
+/* Winner text */
+.modal-content h2 {
+    font-size: 3em;
+    margin: 0;
+}
+/* Score text */
+.modal-content p {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+/* Play Again button */
+.modal-content .modal-btn {
+    padding: 12px 30px;
+    font-size: 1.2em;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px #c33;
+    transition: all 0.3s ease;
+}
+.modal-content .modal-btn:hover {
+    background-color: #ff0000;
+    transform: scale(1.1);
+}
+/* Gradient animation */
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Responsive for mobile */
+@media (max-width: 600px) {
+    .modal-content h2 { font-size: 2em; }
+    .modal-content p { font-size: 1.2em; }
+    .modal-content .modal-btn { font-size: 1em; padding: 10px 25px; }
+}
+ </style>
+</head>
+<body>
+   <!-- Home Screen -->
+  <div id="homeScreen">
+     <!-- Image button -->
+  <img src="play button.png" alt="Start Game" id="startBtn" style="cursor: pointer; width: 150px;">
+</div>
+  <!-- Game Screen -->
+  <div id="gameScreen" style="display: none;">
+    <h1>Wooden Tic-Tac-Toe</h1>
+  <div class="game-container" id="game-container"></div>
+  <div class="scoreboard">
+    <div class="player red">X: <span id="scoreX">0</span></div>
+    <div class="player green">O: <span id="scoreO">0</span></div>
+  </div>
+  <button class="reset-btn" id="reset-btn">New Game</button>
+    <!-- Pause Button -->
+  <button id="pauseBtn">⏸</button>
+  <!-- Pause Menu -->
+  <div id="pauseMenu">
+    <button class="menu-btn" id="homeBtn">⌂</button>
+    <button class="menu-btn" id="restartBtn">⟳</button>
+    <button class="menu-btn" id="continueBtn">▶</button>
+  </div>
+  </div>
+  <!-- Victory Card Modal -->
+<div id="victory-modal" class="modal">
+    <div class="modal-content">
+        <h2 id="winner-text">Player X Wins!</h2>
+        <p>Final Score: <span id="final-score-text">5 - 3</span></p>
+        <button class="modal-btn" id="play-again-btn">Play Again</button>
+    </div>
+</div>
+  <script>
+    //// JavaScript
+    // Ensure modal is hidden when the game first loads
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("victory-modal").style.display = "none";
+});
+const homeScreen = document.getElementById("homeScreen");
+const gameScreen = document.getElementById("gameScreen");
+const startBtn = document.getElementById("startBtn");
+startBtn.addEventListener("click", () => {
+  homeScreen.style.display = "none";   // Home hat jaega
+  gameScreen.style.display = "block";  // Game dikhega
+});
+let board = ['', '', '', '', '', '', '', '', ''];
+let currentPlayer = 'X';
+let gameOver = false;
+let scoreX = 0;
+let scoreO = 0;
+const gameContainer = document.getElementById('game-container');
+function createBoard() {
+  gameContainer.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.setAttribute('data-index', i);
+    cell.addEventListener('click', handleClick);
+    gameContainer.appendChild(cell);
+  }
+}
+function handleClick(event) {
+  if (gameOver) return;
+  const cell = event.target;
+  const index = cell.getAttribute('data-index');
+  if (board[index] !== '') return;
+
+  board[index] = currentPlayer;
+  cell.textContent = currentPlayer;
+  cell.classList.add(currentPlayer.toLowerCase());
+  checkWinner();
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+}
+function checkWinner() {
+  const winPatterns = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  for (let pattern of winPatterns) {
+    const [a,b,c] = pattern;
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      gameOver = true;
+      highlightCells(pattern);
+
+      if (board[a] === 'X') {
+        scoreX++;
+        document.getElementById('scoreX').textContent = scoreX;
+        if(scoreX === 5) showVictoryScreen('X', scoreX, scoreO); // Added victory check
+      } else {
+        scoreO++;
+        document.getElementById('scoreO').textContent = scoreO;
+        if(scoreO === 5) showVictoryScreen('O', scoreX, scoreO); // Added victory check
+      }
+      return;
+    }
+  }
+  if (!board.includes('')) {
+    gameOver = true;
+    alert("It's a Draw!");
+  }
+}
+function highlightCells(pattern) {
+  pattern.forEach(i => {
+    document.querySelectorAll('.cell')[i].classList.add('highlight');
+  });
+}
+function resetGame() {
+  board = ['', '', '', '', '', '', '', '', ''];
+  currentPlayer = 'X';
+  gameOver = false;
+  createBoard();
+}
+
+document.getElementById('reset-btn').addEventListener('click', resetGame);
+
+createBoard();
+
+const pauseBtn = document.getElementById("pauseBtn");
+const pauseMenu = document.getElementById("pauseMenu");
+const homeBtn = document.getElementById("homeBtn");
+const restartBtn = document.getElementById("restartBtn");
+const continueBtn = document.getElementById("continueBtn");
+
+// Pause Menu Toggle
+pauseBtn.addEventListener("click", () => {
+  pauseMenu.classList.toggle("active");
+});
+
+// Home Button → Full Reset
+homeBtn.addEventListener("click", () => {
+  alert("Going to Home Screen (Reset Game + Scoreboard).");
+  pauseMenu.classList.remove("active");
+});
+
+// Restart Button → Only Board Reset
+restartBtn.addEventListener("click", () => {
+  alert("Restarting Game (Board Reset, Scores same).");
+  pauseMenu.classList.remove("active");
+});
+
+// Continue Button
+continueBtn.addEventListener("click", () => {
+  pauseMenu.classList.remove("active");
+});
+
+// Victory Card JS
+const victoryModal = document.getElementById('victory-modal');
+const winnerText = document.getElementById('winner-text');
+const finalScoreText = document.getElementById('final-score-text');
+const playAgainBtn = document.getElementById('play-again-btn');
+
+// Function to show victory screen
+function showVictoryScreen(winner, scoreX, scoreO) {
+    winnerText.textContent = `Player ${winner} Wins!`;
+    finalScoreText.textContent = `${scoreX} - ${scoreO}`;
+    victoryModal.style.display = 'flex';
+}
+
+// Play Again button hides modal and resets game
+playAgainBtn.addEventListener('click', () => {
+    victoryModal.style.display = 'none';
+    // Optional: Reset scores if desired
+    // scoreX = 0;
+    // scoreO = 0;
+    // document.getElementById('scoreX').textContent = scoreX;
+    // document.getElementById('scoreO').textContent = scoreO;
+
+    if (typeof resetGame === 'function') {
+        resetGame();
+    }
+});
+                                                                  
+
+
+  </script>
+</body>                              
+</html>
+                 
